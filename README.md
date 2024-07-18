@@ -1,95 +1,35 @@
-# Qwik City App ⚡️
+# Qwik + Azure SWA = ivm error ⚡️
 
-- [Qwik Docs](https://qwik.dev/)
-- [Discord](https://qwik.dev/chat)
-- [Qwik GitHub](https://github.com/QwikDev/qwik)
-- [@QwikDev](https://twitter.com/QwikDev)
-- [Vite](https://vitejs.dev/)
+Steps taken:
 
----
+- `npm create qwik@latest`
+- `npm run qwik add builder.io`
+- `npm start` and then connect to a Builder.io space that has a page that renders a symbol with bindings
+- `npm run qwik add azure-swa`
+- `npm run build`
+- `npm run serve` everything appears to work fine with the Azure SWA emulator
+- `npx swa deploy --api-version 18 --env production` use the wizard to deploy the site
 
-## Project Structure
+Expected output:
 
-This project is using Qwik with [QwikCity](https://qwik.dev/qwikcity/overview/). QwikCity is just an extra set of tools on top of Qwik to make it easier to build a full site, including directory-based routing, layouts, and more.
+![Expected](/docs/expected.png)
 
-Inside your project, you'll see the following directory structure:
+Actual output:
 
-```
-├── public/
-│   └── ...
-└── src/
-    ├── components/
-    │   └── ...
-    └── routes/
-        └── ...
-```
+![Actual](/docs/actual.png)
 
-- `src/routes`: Provides the directory-based routing, which can include a hierarchy of `layout.tsx` layout files, and an `index.tsx` file as the page. Additionally, `index.ts` files are endpoints. Please see the [routing docs](https://qwik.dev/qwikcity/routing/overview/) for more info.
+Deployed SWA demonstrating the issue:
 
-- `src/components`: Recommended directory for components.
+[https://red-pond-0cb6b551e.5.azurestaticapps.net](https://red-pond-0cb6b551e.5.azurestaticapps.net)
 
-- `public`: Any static assets, like images, can be placed in the public directory. Please see the [Vite public directory](https://vitejs.dev/guide/assets.html#the-public-directory) for more info.
+Logs in Application Insights:
 
-## Add Integrations and deployment
+![Logs](/docs/logs.png)
 
-Use the `npm run qwik add` command to add additional integrations. Some examples of integrations includes: Cloudflare, Netlify or Express Server, and the [Static Site Generator (SSG)](https://qwik.dev/qwikcity/guides/static-site-generation/).
+Attempting to add an import for `isolated-vm` within a Qwik app produces this build error:
 
-```shell
-npm run qwik add # or `yarn qwik add`
-```
-
-## Development
-
-Development mode uses [Vite's development server](https://vitejs.dev/). The `dev` command will server-side render (SSR) the output during development.
-
-```shell
-npm start # or `yarn start`
-```
-
-> Note: during dev mode, Vite may request a significant number of `.js` files. This does not represent a Qwik production build.
-
-## Preview
-
-The preview command will create a production build of the client modules, a production build of `src/entry.preview.tsx`, and run a local server. The preview server is only for convenience to preview a production build locally and should not be used as a production server.
-
-```shell
-npm run preview # or `yarn preview`
-```
-
-## Production
-
-The production build will generate client and server modules by running both client and server build commands. The build command will use Typescript to run a type check on the source code.
-
-```shell
-npm run build # or `yarn build`
-```
-
-## Builder.io + Qwik
-
-An example of using [Builder.io's](https://www.builder.io/) visual editor with Qwik.
-
-See the catchall route at [src/routes/[...index]/index.tsx](src/routes/[...index]/index.tsx) for the integration code.
-
-Registered components can be found in [src/components/builder-registry.ts](src/components/builder-registry.ts)
-
-### Docs
-
-See our full integration guides [here](https://www.builder.io/c/docs/developers)
-
-Also, when you push your integration to production, go back and update your preview URL to your production URL so now anyone on your team can visuall create content in your Qwik app!
-
-Also, to integrate structured data, see [this guide](https://www.builder.io/c/docs/integrate-cms-data)
-
-## Create your Static Web App on Azure
-
-1. Follow [this](https://learn.microsoft.com/en-us/azure/static-web-apps/overview) guide to create a Static Web App. This guide will also detail how to generate a github action or Azure Pipeline (see "Quickstarts" section)
-
-2. If you're using github actions, make sure to add skip_api_build with true value.
-
-```yml
-app_location: "/"
-api_location: "azure-functions"
-output_location: "dist"
-skip_api_build: true # <--- add this line
-###### End of Repository/Build Configurations ######
+```text
+error during build:
+Could not resolve "./out/isolated_vm" from "./out/isolated_vm?commonjs-external"
+file: ./out/isolated_vm?commonjs-external
 ```
