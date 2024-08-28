@@ -15,9 +15,9 @@ export default extendConfig(baseConfig, () => {
         },
       },
     },
-    ssr: {
-      noExternal: /.*/,
-    },
+    // ssr: {
+    //   noExternal: /.*/,
+    // },
     plugins: [azureSwaAdapter()],
   };
 });
