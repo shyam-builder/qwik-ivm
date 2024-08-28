@@ -6,8 +6,11 @@ import {
 } from "@builder.io/qwik-city";
 import { RouterHead } from "./components/router-head/router-head";
 import { isDev } from "@builder.io/qwik/build";
+import { initializeNodeRuntime } from "@builder.io/sdk-qwik/node/init";
 
 import "./global.css";
+
+initializeNodeRuntime();
 
 export default component$(() => {
   /**
