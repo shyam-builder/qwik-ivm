@@ -9,6 +9,14 @@ export const BUILDER_MODEL = "page";
 // `routeLoader$()` takes an async function to fetch content
 // from Builder with `fetchOneEntry()`.
 export const useBuilderContent = routeLoader$(async (event) => {
+  const { initializeNodeRuntime } = await import(
+    // @ts-ignore
+    "@builder.io/sdk-qwik/node/init"
+  );
+
+  initializeNodeRuntime();
+  console.log("Initialized Qwik Node Runtime");
+
   const isPreviewing = event.url.searchParams.has("builder.preview");
 
   const builderContent = await fetchOneEntry({

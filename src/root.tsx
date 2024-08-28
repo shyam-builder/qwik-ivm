@@ -8,11 +8,6 @@ import { RouterHead } from "./components/router-head/router-head";
 import { isDev } from "@builder.io/qwik/build";
 import "./global.css";
 
-// import { initializeNodeRuntime } from "@builder.io/sdk-qwik/node/init";
-
-// initializeNodeRuntime();
-// console.log("Initialized Qwik Node Runtime");
-
 export default component$(() => {
   /**
    * The root of a QwikCity site always start with the <QwikCityProvider> component,
