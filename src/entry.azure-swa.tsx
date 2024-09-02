@@ -14,13 +14,13 @@ import {
 import qwikCityPlan from "@qwik-city-plan";
 import { manifest } from "@qwik-client-manifest";
 import render from "./entry.ssr";
-// import { initializeNodeRuntime } from "@builder.io/sdk-qwik/node/init";
+import { initializeNodeRuntime } from "@builder.io/sdk-qwik/node/init";
 
 declare global {
   interface QwikCityPlatform extends PlatformAzure {}
 }
 
-// initializeNodeRuntime();
-// console.log("Initialized Qwik Node Runtime");
+initializeNodeRuntime();
+console.log("Initialized Qwik Node Runtime");
 
 export default createQwikCity({ render, qwikCityPlan, manifest });
